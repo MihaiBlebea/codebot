@@ -13,7 +13,7 @@ variable "http_port" {
 }
 
 variable "node_port" {
-    default = 8080
+    default = 30002
 }
 
 variable "codebot_image" {}

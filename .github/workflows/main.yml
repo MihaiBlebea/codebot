@@ -9,10 +9,12 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-    
+        env:
+            TF_VAR_codebot_image: serbanblebea/codebot:${{ github.sha }}
+
         steps:
             - uses: actions/checkout@v2
-
+              
             - name: Build and push Docker images - Codebot
               uses: docker/build-push-action@v1
               with:

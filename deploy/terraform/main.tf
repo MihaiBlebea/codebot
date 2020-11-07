@@ -17,6 +17,11 @@ terraform {
     }
 }
 
+provider "digitalocean" {
+    token   = var.do_token
+    version = "1.22.0"
+}
+
 data "digitalocean_kubernetes_cluster" "platform_cluster" {
     name = var.cluster_name
 }
@@ -29,7 +34,6 @@ provider "kubernetes" {
         data.digitalocean_kubernetes_cluster.platform_cluster.kube_config[0].cluster_ca_certificate
     )
 }
-
 
 resource "kubernetes_namespace" "codebot" {
     metadata {
