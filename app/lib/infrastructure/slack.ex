@@ -5,13 +5,10 @@ defmodule Codebot.Adapter.Slack do
 
     @spec send_msg(binary) :: :ok
     def send_msg(text) when is_binary(text) do
-        {:ok, req_body} = JSON.encode(%{"text" => text})
+        {:ok, req_body} = JSON.encode!(%{"text" => text})
         url = "#{ @base_url }/#{ get_slack_token() }"
-        IO.inspect url
 
         {:ok, resp} = HTTPoison.post(url, req_body, get_default_headers())
-
-        IO.inspect resp
         code = Map.fetch!(resp, :status_code)
 
         case code do
@@ -65,9 +62,6 @@ defmodule Codebot.Adapter.Slack do
     end
 
     defp get_slack_token() do
-        case Application.fetch_env(:codebot, :slack_token) do
-            {:ok, token} -> token
-            _ -> raise "Could not find key slack_token in config"
-        end
+        System.get_env("SLACK_TOKEN")
     end
 end

@@ -2,8 +2,8 @@ version: "3.8"
 
 services:
     codebot:
-        image: serbanblebea/codebot:b7d6cdcc65ab4f2a37a3f868bf709ba493dd32e1
-        # build: ./
+        # image: serbanblebea/codebot:b7d6cdcc65ab4f2a37a3f868bf709ba493dd32e1
+        build: ./
         container_name: codebot
         ports:
             - "8080:8080"
