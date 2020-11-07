@@ -39,14 +39,14 @@ jobs:
             - name: Terraform Plan
               working-directory: ./deploy/terraform
               run: terraform plan
-              env:
-                TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
-                TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
+            #   env:
+            #     TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
+            #     TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
               run: terraform apply -auto-approve
-              env:
-                TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
-                TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
+            #   env:
+            #     TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
+            #     TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
