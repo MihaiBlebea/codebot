@@ -1,0 +1,52 @@
+name: CI
+
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
+    
+jobs:
+    build:
+        runs-on: ubuntu-latest
+    
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Build and push Docker images - Codebot
+              uses: docker/build-push-action@v1
+              with:
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+                repository: serbanblebea/codebot
+                tags: ${{ github.sha }}
+                path: ./app
+    
+            - name: HashiCorp - Setup Terraform
+              uses: hashicorp/setup-terraform@v1.1.0
+              with:
+                cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
+                terraform_version: 0.13.5
+    
+            - name: Terraform Init
+              run: terraform init
+              working-directory: ./deploy/terraform
+
+            - name: Terraform Get
+              run: terraform get
+              working-directory: ./deploy/terraform
+
+            - name: Terraform Plan
+              working-directory: ./deploy/terraform
+              run: terraform plan
+              env:
+                TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
+                TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
+
+            - name: Terraform Apply
+              working-directory: ./deploy/terraform
+              if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+              run: terraform apply -auto-approve
+              env:
+                TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
+                TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
