@@ -1,0 +1,37 @@
+{
+    "intent": "buy_milk",
+    "entities": [
+        {
+            "name":"milk",
+            "roles":[]
+        }
+    ],
+    "utterances": [
+        {
+            "text": "I need to buy some milk",
+            "intent": "buy_milk",
+            "entities": [],
+            "traits": []
+        },
+        {
+            "text": "Get me some milk",
+            "intent": "buy_milk",
+            "entities": [],
+            "traits": []
+        },
+        {
+            "text": "I need to buy fulga milk",
+            "intent": "buy_milk",
+            "entities": [
+                {
+                    "entity": "milk:milk",
+                    "start": 14,
+                    "end": 18,
+                    "body": "fulga",
+                    "entities": []
+                }
+            ],
+            "traits": []
+        }
+    ]
+}
