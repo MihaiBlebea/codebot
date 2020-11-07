@@ -78,6 +78,17 @@ resource "kubernetes_deployment" "codebot_deployment" {
                         name  = "HTTP_PORT"
                         value = var.http_port
                     }
+
+                    env {
+                        name = "SLACK_TOKEN"
+                        value = var.slack_token 
+                    }
+
+                    env {
+                        name = "WITAI_TOKEN"
+                        value = var.witai_token
+                    }
+
                     port {
                         container_port = var.http_port
                     }

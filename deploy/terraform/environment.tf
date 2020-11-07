@@ -17,3 +17,7 @@ variable "node_port" {
 }
 
 variable "codebot_image" {}
+
+variable "slack_token" {}
+
+variable "witai_token" {}
