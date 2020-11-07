@@ -7,7 +7,11 @@ defmodule Codebot.Adapter.Slack do
     def send_msg(text) when is_binary(text) do
         {:ok, req_body} = JSON.encode(%{"text" => text})
         url = "#{ @base_url }/#{ get_slack_token() }"
+        IO.inspect url
+
         {:ok, resp} = HTTPoison.post(url, req_body, get_default_headers())
+
+        IO.inspect resp
         code = Map.fetch!(resp, :status_code)
 
         case code do
