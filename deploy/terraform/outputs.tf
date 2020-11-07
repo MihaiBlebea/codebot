@@ -1,3 +1,3 @@
 output "success" {
-    value = "Done"
+    value = data.digitalocean_kubernetes_cluster.platform_cluster
 }
