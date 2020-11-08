@@ -44,7 +44,7 @@ jobs:
 
             - name: Terraform Plan
               working-directory: ./deploy/terraform
-              run: export TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} && terraform plan -va
+              run: export TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} && terraform plan
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
