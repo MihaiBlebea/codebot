@@ -5,7 +5,7 @@ defmodule Codebot.Adapter.Slack do
 
     @spec send_msg(binary) :: :ok
     def send_msg(text) when is_binary(text) do
-        {:ok, req_body} = JSON.encode!(%{"text" => text})
+        req_body = JSON.encode!(%{"text" => text})
         url = "#{ @base_url }/#{ get_slack_token() }"
 
         {:ok, resp} = HTTPoison.post(url, req_body, get_default_headers())
