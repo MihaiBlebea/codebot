@@ -47,12 +47,12 @@ jobs:
 
             - name: Terraform Plan
               working-directory: ./deploy/terraform
-              run: terraform plan -varfile=$GITHUB_ENV
+              run: terraform plan -var-file=$GITHUB_ENV
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-              run: terraform apply -auto-approve -varfile=$GITHUB_ENV
+              run: terraform apply -auto-approve -var-file=$GITHUB_ENV
             
             - name: Terraform Taint
               working-directory: ./deploy/terraform
