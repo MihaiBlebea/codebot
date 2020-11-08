@@ -9,12 +9,13 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        env:
-            TF_VAR_codebot_image: serbanblebea/codebot:${{ github.sha }}
 
         steps:
             - uses: actions/checkout@v2
               
+            - name: Set env
+              run: echo "TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} | cut -c 1-6)" >> $GITHUB_ENV
+
             - name: Build and push Docker images - Codebot
               uses: docker/build-push-action@v1
               with:
@@ -41,14 +42,8 @@ jobs:
             - name: Terraform Plan
               working-directory: ./deploy/terraform
               run: terraform plan
-            #   env:
-            #     TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
-            #     TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
               run: terraform apply -auto-approve
-            #   env:
-            #     TF_VAR_do_token: ${{ secrets.DO_TOKEN }}
-            #     TF_VAR_blog_image: serbanblebea/codebot:${{ github.sha }}
