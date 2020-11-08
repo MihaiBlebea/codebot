@@ -44,12 +44,12 @@ jobs:
 
             - name: Terraform Plan
               working-directory: ./deploy/terraform
-              run: terraform plan
+              run: export TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} && terraform plan -va
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-              run: terraform apply -auto-approve
+              run: export TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} && terraform apply -auto-approve
             
             - name: Terraform Taint
               working-directory: ./deploy/terraform
