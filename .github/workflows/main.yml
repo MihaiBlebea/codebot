@@ -12,12 +12,6 @@ jobs:
 
         steps:
             - uses: actions/checkout@v2
-              
-            - name: Set env
-              run: echo "TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }}" >> $GITHUB_ENV 
-
-            - name: Print $GITHUB_ENV
-              run: cat $GITHUB_ENV
 
             - name: Build and push Docker images - Codebot
               uses: docker/build-push-action@v1
@@ -27,13 +21,21 @@ jobs:
                 repository: serbanblebea/codebot
                 tags: ${{ github.sha }}
                 path: ./app
-    
+
             - name: HashiCorp - Setup Terraform
               uses: hashicorp/setup-terraform@v1.1.0
               with:
                 cli_config_credentials_token: ${{ secrets.TF_TOKEN }}
                 terraform_version: 0.13.5
-    
+
+            - name: Setup Terraform variables
+              working-directory: ./deploy/terraform
+              id: vars
+              run: |-
+                cat > pipeline.auto.tfvars <<EOF
+                codebot_image = "serbanblebea/codebot:${{ github.sha }}"
+                EOF
+
             - name: Terraform Init
               run: terraform init
               working-directory: ./deploy/terraform
