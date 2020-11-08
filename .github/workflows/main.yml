@@ -49,7 +49,7 @@ jobs:
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-              run: terraform apply -auto-approve -var TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }}
+              run: terraform apply -auto-approve -var codebot_image=serbanblebea/codebot:${{ github.sha }}
             
             - name: Terraform Taint
               working-directory: ./deploy/terraform
