@@ -25,6 +25,6 @@ jobs:
               run: terraform get
               working-directory: ./deploy/terraform
     
-            - name: Terraform Taint
-              run: terraform taint
+            - name: Terraform Destroy
+              run: terraform destroy -auto-approve
               working-directory: ./deploy/terraform
