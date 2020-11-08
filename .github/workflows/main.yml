@@ -42,14 +42,17 @@ jobs:
               run: terraform get
               working-directory: ./deploy/terraform
 
+            - name: Test image env variable
+              run: echo $TF_VAR_codebot_image
+
             - name: Terraform Plan
               working-directory: ./deploy/terraform
-              run: terraform plan -var codebot_image="serbanblebea/codebot:${{ github.sha }}"
+              run: terraform plan -varfile=$GITHUB_ENV
 
             - name: Terraform Apply
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-              run: terraform apply -auto-approve -var codebot_image="serbanblebea/codebot:${{ github.sha }}"
+              run: terraform apply -auto-approve -varfile=$GITHUB_ENV
             
             - name: Terraform Taint
               working-directory: ./deploy/terraform
