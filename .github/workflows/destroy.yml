@@ -26,5 +26,5 @@ jobs:
               working-directory: ./deploy/terraform
     
             - name: Terraform Taint
-              run: terraform taint data.digitalocean_loadbalancer.load_balancer
+              run: terraform taint
               working-directory: ./deploy/terraform

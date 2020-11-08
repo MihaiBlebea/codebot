@@ -16,6 +16,9 @@ jobs:
             - name: Set env
               run: echo "TF_VAR_codebot_image=serbanblebea/codebot:${{ github.sha }} | cut -c 1-6)" >> $GITHUB_ENV
 
+            - name: Test image env variable
+              run: echo $TF_VAR_codebot_image
+
             - name: Build and push Docker images - Codebot
               uses: docker/build-push-action@v1
               with:
@@ -47,3 +50,8 @@ jobs:
               working-directory: ./deploy/terraform
               if: github.ref == 'refs/heads/master' && github.event_name == 'push'
               run: terraform apply -auto-approve
+            
+            - name: Terraform Taint
+              working-directory: ./deploy/terraform
+              if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+              run: terraform taint kubernetes_deployment.codebot_deployment
